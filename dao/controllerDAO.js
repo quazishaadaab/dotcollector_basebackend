@@ -244,7 +244,7 @@ const column = dot?.column
 
 // we cannot use backticks when defining a mongodb query
 let query = {}
-var value = `dot.${row}.${column}`
+var value = `dot.${row-1}.${column-1}`
 query[value] = dot
 console.log('cols',dot?.column)
 console.log('rows',dot?.row)
