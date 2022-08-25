@@ -1,0 +1,113 @@
+
+
+var wide=400 
+ var long=600
+ var inputTextValue=0
+ var d //make d ,mousePointerCol,mousePointer row all global variables because we will need to use them across multiple functions and classes
+ //very important to make variables global instead of local. local comes with alot of limitations.
+ let mousePointerCol
+ let mousePointerRow
+
+
+ let grid=new Array(s.rows)
+
+  for (let i=0;i<s.rows;i++){
+    for(let j=0;j<s.cols;j++){
+      grid[i]=new Array(j)
+    }
+  }
+  console.log(grid)
+
+
+
+
+var c = document.getElementById("mycanvas")
+var ctx =c.getContext("2d");
+
+
+
+  function drawLine(rows,cols,gap_h,gap_v,wide,long) {
+      for( let i=1 ; i<=cols-1;i++){
+          ctx.moveTo(gap_h*i,0)
+          ctx.lineTo(gap_h*i,long)
+          ctx.stroke()
+      }
+      for ( let j=1;j<=rows-1;j++){
+        ctx.moveTo(0,gap_v*j)
+        ctx.lineTo(wide,gap_v*j)
+        ctx.stroke()
+}
+    }
+
+
+     drawLine(6,4,100,100,400,600)
+
+
+
+
+
+     function mousePressed(e){
+
+      var xCoord=e.clientX
+      var yCoord=e.clientY
+
+   mousePointerCol =ColSelector(xCoord,4,400)
+ mousePointerRow=RowSelector(yCoord,6,600)
+
+// get numerical input from the user 
+//decide upon the color-number value (if 8-10 : green, if 0-4: red, if 5-7: good )
+//create new object passing its value and color 
+
+ d = new Dot(mousePointerRow,mousePointerCol,s.gap_h,s.gap_v)
+drawInput(d.x,d.y,d.gap_h,d.gap_v,d)
+console.log(mousePointerRow,mousePointerCol)
+
+}
+
+
+
+
+
+
+
+
+ function drawInput(x,y,h,v,d){
+var input=document.createElement("input")//will create a new input tag each time clicked.
+input.type="text"
+
+input.name="input"
+input.style.position="fixed"
+input.addEventListener("keydown",(e)=>{ //eventListener listens to any change in the input field and if its is a keydown change, the following function will execute.
+ //e is the change that happened. target gives the element responsible for change. value gives you value of that element
+//e returns keyboardEvent
+//e.target returns the input tag.<input type="text" name="input" size="2'" style="positon: fixed ; left:199px;top100px;"></input>
+
+
+  if(e.keyCode===13){ //13 in ENTER key
+
+  inputTextValue=e.target.value
+  d.setValue(inputTextValue)
+  d.setColor()
+  d.drawRect(); 
+
+grid[mousePointerRow-1][mousePointerCol-1]=d; //put grid and d.value in this eventlistener because we only want to update the grid when enter is pressed.
+
+ console.log(e.target.value)
+  }
+ })
+
+
+input.style.left=x+"px"
+
+input.style.top=y+"px"
+input.size=2
+document.body.appendChild(input)//must put this to insert into the html body. can also use append() for multiple dom elements/elements in general.
+input.focus()
+//optional
+  // ctx.document.write("hello");
+
+//  this.input.position(this.x, this.y);
+//  this.input.size(this.gap_h/5);
+// this.value=this.input.value();
+}
+
