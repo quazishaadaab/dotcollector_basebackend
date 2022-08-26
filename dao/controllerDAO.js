@@ -22,13 +22,14 @@ export default class ControllerDAO {
     }
   }
 
-  static async inject(roomid, roomname) {
+  static async inject(roomid, roomname,room_type) {
     console.log("roomdoc " + roomid + "" + roomname);
 
     try {
       const roomdoc = {
         roomid: roomid,
         roomname: roomname,
+        room_type: room_type
       };
       return await rooms.insertOne(roomdoc);
     } catch (e) {

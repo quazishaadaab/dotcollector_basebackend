@@ -11,12 +11,12 @@ class Controller {
   static async postRooms(req, res, next) {
     const roomid = await req.body.roomid;
     const roomname = await req.body.roomname;
-
+    const room_type = await req.body.roomType
     res.json(req?.body); //this is not mandatory. it just shows reqbin or postman the data. POST requests mainly
     //just use req not res. res is more for GET
 
-    console.log(req.body.roomid, req.body.roomname);
-    ControllerDAO.inject(roomid, roomname);
+    console.log(req.body.roomid, req.body.roomname,req.body.room_type);
+    ControllerDAO.inject(roomid, roomname,room_type);
 
     // this.realData= data;
   }
