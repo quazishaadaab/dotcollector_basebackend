@@ -18,6 +18,9 @@ router.route("/deletePeerById").put(Controller.deletePeerById)
 router.route("/postSpeakerInRoom").put(Controller.postSpeakerInRoom)
 
 router.route("/postUsersInRoom").put(Controller.postUsersInRoom)
+
+router.route("/deleteUsersInRoom").put(Controller.deleteUsersInRoom)
+
 router.route("/postCreatorInRoom").put(Controller.postCreatorInRoom)
 router.route("/updateDotInRoom").put(Controller.updateDotInRoom)
 

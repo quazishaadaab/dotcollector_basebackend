@@ -78,6 +78,22 @@ res.json(userinfo)
     ControllerDAO.injectUsersInRoom(roomid,userDoc)
   }
 
+
+  static async deleteUsersInRoom(req,res,next){
+    const userid= await req.body.userid
+    const username=await req.body.username
+    const userPhoto=await req.body.userPhoto
+    const roomid=await req.body.roomid
+
+    const userDoc={
+      userid:userid,
+      username:username,
+      userPhoto:userPhoto
+    }
+    res.json(req?.body)
+    ControllerDAO.deleteUsersInRoom(roomid,userDoc)
+  }
+
   static async postUsersInUsers(req,res,next){
     const userid= await req.body.userid
     const username=await req.body.username

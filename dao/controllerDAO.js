@@ -154,6 +154,26 @@ return await cursor[0];
     }
   }
 
+
+
+  static async deleteUsersInRoom(roomid, userdoc) {
+    try {
+      await rooms.update(
+        { roomid: roomid },
+        { $pull: { "users.0": {userPhoto:'https://lh3.googleusercontent.com/a/AItbvmkTU16vkDTOSFYeHRCuiN7zTQsmVQiSbBYKZ-pmhg=s96-c'} } }
+      );
+
+      // we specify the key we want to update or push
+
+      // {$push:{'users.0':"00000"}}) this is for inserting values by penetrating through nested keys
+    } catch (e) {
+      return { error: e };
+    }
+  }
+
+
+
+
   static async injectUsersInUsers(userdoc) {
     try {
       // await users.updateOne({},{$set:{'userid':userdoc.userid}})
