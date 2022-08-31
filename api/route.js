@@ -61,6 +61,11 @@ router.route("/postDotInUser").put(Controller.postDotInUser)
 
 router.route("/postRooms").post(Controller.postRooms)
 router.route("/getAllRooms").get(Controller.getAllRooms)
+
+//get all rooms by id , makes rooms more selective
+router.route("/getAllRoomsByUserId").post(Controller.getAllRoomsByUserId)
+
+
 //useless 
 router.route("/getRoomId").post(Controller.getRoomId)
 

@@ -113,6 +113,24 @@ await users.updateMany(
     return await cursor;
   }
 
+
+  static async getAllRoomsByUserId(userid){
+
+    try{
+      let cursor = await users.find({userid:userid}).toArray();
+      const dotCollection_arr = cursor[0].dotCollection;
+      const keys =  Object.keys(dotCollection_arr)
+    console.log('dotCollection',dotCollection_arr)
+    console.log('keys',keys)
+
+    return await keys
+    }catch(e){
+      console.log(e)
+    }
+
+
+  }
+
   static async getUsersInRoom(roomid) {
     try {
       const cursor = await rooms
@@ -217,9 +235,9 @@ return await cursor[0];
   static async getDotCollectionCount(userid) {
     try {
       const cursor = await users.find({ userid: userid }).toArray();
-      const t = cursor[0].dotCollection;
+      const dotCollection_arr = cursor[0].dotCollection;
 
-      return await t;
+      return await dotCollection_arr;
     } catch (e) {
       console.log(e);
     }

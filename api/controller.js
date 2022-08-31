@@ -27,6 +27,14 @@ class Controller {
     
   }
 
+
+  static async getAllRoomsByUserId(req,res,next){
+    const userid=await req.body.userid
+    const rooms = await ControllerDAO.getAllRoomsByUserId(userid)
+    res.json(rooms)
+
+  }
+
   static async getRoomId(req, res, next) {
     res.json(req.body.roomId);
   }
