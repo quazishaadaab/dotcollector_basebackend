@@ -1,5 +1,5 @@
 import ControllerDAO from "../dao/controllerDAO.js";
-
+import { EXECUTE_postUserInRooms,EXECUTE_postRooms,EXECUTE_getRoomsByUser,EXECUTE_setSpeaker,EXECUTE_setCreator } from "../postgres/index.js";
 
 class Controller {
   // constructor(realData){
@@ -16,8 +16,16 @@ class Controller {
     //just use req not res. res is more for GET
 
     console.log(req.body.roomid, req.body.roomname,req.body.room_type);
-    ControllerDAO.inject(roomid, roomname,room_type);
 
+    //create the room in new row
+    EXECUTE_postRooms(roomid,roomname,room_type)
+
+    //add the person who created the room to the user list 
+    ControllerDAO.inject(roomid, roomname,room_type);
+    // inject a new empty dot array in rooms. This is required, or else the dots cannot be displayed in rooms when user first enters upon a room
+    
+    //needs to know the number of users 
+    // ControllerDAO.injectDotInRoom(roomid,[[]])
     // this.realData= data;
   }
   
@@ -31,7 +39,11 @@ class Controller {
   static async getAllRoomsByUserId(req,res,next){
     const userid=await req.body.userid
     const rooms = await ControllerDAO.getAllRoomsByUserId(userid)
-    res.json(rooms)
+    // res.json(rooms)
+
+
+    const result = await EXECUTE_getRoomsByUser(userid)
+    res.json(result)
 
   }
 
@@ -82,6 +94,10 @@ res.json(userinfo)
       username:username,
       userPhoto:userPhoto
     }
+
+  
+    EXECUTE_postUserInRooms(userDoc,roomid)
+
     res.json(req?.body)
     ControllerDAO.injectUsersInRoom(roomid,userDoc)
   }
@@ -159,6 +175,8 @@ static async postSpeakerInRoom(req,res,next){
     const roomid=await req.body.roomid
 
     res.json(req?.body)
+
+    EXECUTE_setSpeaker(speaker,roomid)
     ControllerDAO.injectSpeakerInRoom(roomid,speaker)
 
 
@@ -169,7 +187,9 @@ static async postCreatorInRoom(req,res,next){
     const roomid=await req.body.roomid
 
     res.json(req?.body)
+    EXECUTE_setCreator(creator,roomid)
     ControllerDAO.injectCreatorInRoom(roomid,creator)
+
 }
 
 static async updateDotInRoom(req,res,next){
