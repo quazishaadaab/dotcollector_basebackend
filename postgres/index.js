@@ -39,6 +39,8 @@ const EXECUTE_getRoomsByUser=async(userid)=>{
 return result?.rows
 }
 
+
+
 const EXECUTE_postRooms=async(roomID,roomname,room_type)=>{
 
     try{
@@ -70,12 +72,26 @@ const EXECUTE_setCreator=async(creatorid,roomid)=>{
 }
 
 // this is also an upsert. wont insert the same user in the room
+
  const EXECUTE_postUserInRooms=async(postgres_userdoc,roomid)=>{
 //roomname must be in char or else it wont work
 
 const userDoc = `'${JSON.stringify(postgres_userdoc)}'` ;
-console.log(userDoc)
-await pool.query(`UPDATE rooms_postgres_2 SET users = users || ${userDoc}::jsonb WHERE roomid='${roomid}' ;`)
+const userDocNoQuotes = `${JSON.stringify(postgres_userdoc)}` ;
+
+console.log(userDoc?.userid)
+//the code below is without upsert( will insert duplicates)
+// await pool.query(`UPDATE rooms_postgres_2 SET users = users || ${userDoc}::jsonb WHERE roomid='${roomid}'  ;`)
+
+// the code below is with upserts, will not insert duplicates. The ," AND NOT('[${userDoc2}]'::jsonb <@ users) ", prevents duplicated.
+// The <@ means not in. '[userDoc2]' is specefic here because the statement searches for values in the user column. The entries in the user column start with [{"userid":----,"username":---,"userPhoto":---}]
+//for that we cannot use the userDoc constant above, since it is wrapped in ''(single quotes). We need it to be more like '[]', thus we use no quotes.
+//also , the @> or @< operator must match the whole json , so we have to include all three json keys(userid,username,and userphoto). We cant just use one.
+
+await pool.query(`UPDATE rooms_postgres_2 SET users = users || ${userDoc}::jsonb WHERE roomid='${roomid}' AND NOT('[${userDocNoQuotes}]'::jsonb <@ users)`)
+
+
+
 }
 
 

@@ -2,7 +2,13 @@ import app from "./server.js"
 
 import mongodb from "mongodb"
 import dotenv from "dotenv"
-import ControllerDAO from "./dao/controllerDAO.js" //connects to restaurant API      
+import ControllerDAO from "./dao/controllerDAO.js" //connects to restaurant API 
+
+
+import email from './api/controller.js'
+
+
+
 dotenv.config()
 //initialize mongodb
 const MongoClient = mongodb.MongoClient
@@ -18,7 +24,7 @@ MongoClient.connect(//connects to database
   )
   .catch(err => { //catch any error if database connection goes wrong
     console.error(err.stack)
-    process.exit(1)
+    // process.exit(1)
   })
   .then(async client => { // async client i dont know much about
     await ControllerDAO.injectDB(client) //    // before anything loads, we connect to the restaurants collection.

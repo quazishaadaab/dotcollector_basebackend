@@ -5,18 +5,22 @@ import { response } from "express";
 
 let rooms;
 let users;
+let attributes;
+
+
 let room_id;
 let room_name;
 let gridId;
 let grid;
 export default class ControllerDAO {
   static async injectDB(conn) {
-    if (rooms & users) {
+    if (rooms & users & attributes) {
       return;
     }
     try {
       rooms = await conn.db(process.env.RESTREVIEWS_NS).collection("rooms");
       users = await conn.db(process.env.RESTREVIEWS_NS).collection("users");
+      attributes= await conn.db(process.env.RESTREVIEWS_NS).collection("attributes");
     } catch (e) {
       console.error(`unable to establish a collection ${e}`);
     }
@@ -114,6 +118,7 @@ await users.updateMany(
   }
 
 
+  //we are not using this anymore
   static async getAllRoomsByUserId(userid){
 
     try{
@@ -325,4 +330,60 @@ await rooms.updateMany({roomid:roomid},{$set:query})
       console.log(e);
     }
   }
+
+
+static async postAttribute(attributeid,authorid,attributePackageName,attributeArray){
+
+  const attributesDoc ={
+    attributeid:attributeid,
+    authorid:authorid,
+    name :attributePackageName,
+    attributes:attributeArray
+  }
+
+  try{
+    attributes.insertOne(attributesDoc)
+
+  }catch(e){
+    console.log(e)
+  }
+}
+
+
+
+static async postAttributeIdInRoom(roomid,attributeid){
+
+  try{
+    console.log(roomid,attributeid)
+    rooms.updateMany(
+      { roomid: roomid },
+      // set is for updating a key
+      { $set: { attributeid: attributeid } }
+    );
+    
+
+
+  }catch(e){console.log(e)}
+
+}
+
+
+static async getAttribute(attributeid){
+
+  try{
+    let cursor = await attributes.find({attributeid:attributeid}).toArray();
+    return cursor
+  }catch(e){console.log(e)}
+}
+
+static async getAttributeByUserId(userid){
+
+  try{
+    let cursor = await attributes.find({authorid:userid}).toArray();
+    return cursor
+  }catch(e){console.log(e)}
+}
+
+
+
 }

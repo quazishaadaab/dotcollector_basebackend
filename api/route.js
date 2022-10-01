@@ -7,6 +7,18 @@ export const dotrouter = express.Router()
 
 
 
+// /*===================================================================================================================
+//     difference between post and put and delete ? : post ,put,delete can all be used as the same thing since they all
+//     manipulate data. they will work interchangebly. However, post will be called everytime, even if the parameters/data 
+//     are the same. So you will get duplictes. 
+//
+//     PUT however will only insert/update the database or be called if the paremeter is different from previous call.Same with 
+//     delete. Thus, not adding duplicates.
+
+
+
+
+
 //port 5000
 // rooms api
 
@@ -79,5 +91,23 @@ router.route("/search").get(Controller.search)
 // router.route("./updateDot").update(Controller.updateDot)
 
 // dashboard api + peer list api
+
+//posts in attribute database
+router.route("/postAttribute").post(Controller.postAttribute)
+
+
+//by attributeid
+router.route("/getAttribute").post(Controller.getAttribute)
+
+router.route("/getAttributeByUserId").post(Controller.getAttributeByUserId)
+
+//post attribute id in rooms
+router.route("/postAttributeIdInRoom").put(Controller.postAttributeIdInRoom)
+
+
+
+router.route("/sendEmailInvite").post(Controller.sendEmailInvite)
+
+
 
 export default router

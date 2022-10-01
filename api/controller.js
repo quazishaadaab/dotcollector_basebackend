@@ -1,6 +1,9 @@
 import ControllerDAO from "../dao/controllerDAO.js";
 import { EXECUTE_postUserInRooms,EXECUTE_postRooms,EXECUTE_getRoomsByUser,EXECUTE_setSpeaker,EXECUTE_setCreator } from "../postgres/index.js";
 
+
+import {sendMail} from '../server.js'
+
 class Controller {
   // constructor(realData){
 
@@ -51,6 +54,44 @@ class Controller {
     res.json(req.body.roomId);
   }
 
+
+  static async postAttribute(req,res,next){
+const attributeArray = await req.body.attributes
+const attributePackageName=await req.body.attributePackageName
+const authorid=await req.body.authorid
+const attributeid=await req.body.attributeid
+
+ControllerDAO.postAttribute(attributeid,authorid,attributePackageName,attributeArray)
+
+  }
+
+  static async getAttribute(req,res,next){
+
+const attributeid=await req.body.attributeid
+  
+    const attributeArray = await ControllerDAO.getAttribute(attributeid)
+res.json(attributeArray)
+  }
+
+
+
+  static async postAttributeIdInRoom(req,res,next){
+
+    const attributeid = await req.body.attributeid
+    const roomid= await req.body.roomid
+
+    ControllerDAO.postAttributeIdInRoom(roomid,attributeid)
+    res.send('success')
+  }
+  
+
+  static async getAttributeByUserId(req,res,next){
+
+    const userid=await req.body.userid
+      
+    const attributeArray = await ControllerDAO.getAttributeByUserId(userid)
+    res.json(attributeArray)
+      }
 
 
 
@@ -122,6 +163,8 @@ res.json(userinfo)
     const userid= await req.body.userid
     const username=await req.body.username
     const userPhoto=await req.body.userPhoto
+    const email=await req.body.email
+
     // const avgDot=await req.body.avgDot
     // const password=await req.body.password
     // const dotCollection=await req.body.dotCollection
@@ -132,6 +175,7 @@ res.json(userinfo)
       userid:userid,
       username:username,
       userPhoto:userPhoto,
+      email:email
       // avgDot:avgDot,
       // password:password,
     
@@ -273,6 +317,27 @@ ControllerDAO.deletePeerById(userid,peerid)
 
 
   }
+
+
+
+
+
+
+  static async sendEmailInvite(req,res,next){
+
+const emailData = await req.body.email
+ const roomlink = await req.body.roomlink
+
+res.json({email:emailData,roomlink:roomlink})
+
+
+sendMail(emailData,roomlink)
+.then((res)=>console.log('Email sent',result))
+.catch((error)=> console.log(error.message))
+
+
+  }
+
 
 
 

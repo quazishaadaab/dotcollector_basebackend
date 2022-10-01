@@ -22,9 +22,11 @@
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
     "google-auth-library": "^7.14.1",
+    "googleapis": "^63.0.0",
     "joi": "^13.1.0",
     "module": "^1.2.5",
     "mongodb": "^4.4.1",
+    "nodemailer": "^6.7.8",
     "nodemon": "^2.0.19",
     "pg": "^8.8.0",
     "regenerator-runtime": "^0.13.9"
