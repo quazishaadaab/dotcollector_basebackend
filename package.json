@@ -6,9 +6,9 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "start": "nodemon server",
+    "start": "node index.jsr",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "npm-run-all --parallel server canvas",
+    "dev": "nodemon server",
     "canvas": "nodemon canvasserver",
     "server": "nodemon server"
   },

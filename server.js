@@ -63,11 +63,12 @@ console.log(`server listening`   )
 
 
 const CLIENT_ID = '176309719056-rr2qb5ifakhgcs8eqbtc11fiqph82mn9.apps.googleusercontent.com'
-const CLIENT_SECRET = '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'
+const CLIENT_SECRET = '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'
 
 const REDIRECT_URI = 'https://developers.google.com/oauthplayground'
-const REFRESH_TOKEN='1//048z2BxrrvmmcCgYIARAAGAQSNwF-L9IrUmIXC6EYQtWuhl90S2wjrz7HvEqfGDBI6BTl_Vpe-FX7HzfmLQqgFgu6MbYd8NNxkqc'
+// const REFRESH_TOKEN='1//048z2BxrrvmmcCgYIARAAGAQSNwF-L9IrUmIXC6EYQtWuhl90S2wjrz7HvEqfGDBI6BTl_Vpe-FX7HzfmLQqgFgu6MbYd8NNxkqc'
 
+const REFRESH_TOKEN='1//04xLZfNSLEZSRCgYIARAAGAQSNwF-L9Ir8WndohaPIgRtqwoiAv7Sr9OyWZHmOI8LDRwfA4EMpwxli4wNKlxLS4AZT4vMpOtwVhA'
 
 
 
@@ -79,26 +80,29 @@ export async function sendMail(email,roomlink){
 
     try{
 const accessToken=await oAuth2Client.getAccessToken()
+console.log(accessToken)
 const transport = nodemailer.createTransport({
+
+
+    // kyjrexrrdiyrcqxz
 
     //Step 1 : auth
     service : 'gmail',
     auth:{
 
-        type:'OAuth2',
+        type:'XOAuth2', //Changed from OAUTH2 to XOAUTH2 which is a different thing. idk what it is , but its a stackoverflow solution
         user:'shaadaabquazi@gmail.com',
+        //since google disabled less secure apps, we need to use an app password for our mail service.
+        pass:process.env.APP_PASSWORD,
+        //the code below can be deleted and it the email service will still work.
         clientId:CLIENT_ID,
         clientSecret:CLIENT_SECRET,
         refreshToken: REFRESH_TOKEN,
         accessToken : accessToken
-
-
         }
 })
 
-
 console.log(email)
-
 let mailOptions={
 
     from:' DotCollector <shaadaabquazi@gmail.com>',
@@ -110,15 +114,15 @@ let mailOptions={
 
 
 const result = await transport.sendMail(mailOptions)
-return result
+return result;
     }
-    catch(e){return error}
+    catch(e){return e}
 
 }
 
 
-// sendMail('shaadaabquazi@gmail.com')
-// .then((res)=>console.log('Email sent',result))
+// sendMail('bill.tomber@gmail.com','fuck')
+// .then((res)=>console.log('Email sent',res))
 // .catch((error)=> console.log(error.message))
 
 

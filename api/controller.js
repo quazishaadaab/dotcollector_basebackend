@@ -85,11 +85,11 @@ res.json(attributeArray)
   }
   
 
-  static async getAttributeByUserId(req,res,next){
+  static async getAttributeByAuthorId(req,res,next){
 
     const userid=await req.body.userid
       
-    const attributeArray = await ControllerDAO.getAttributeByUserId(userid)
+    const attributeArray = await ControllerDAO.getAttributeByAuthorId(userid)
     res.json(attributeArray)
       }
 
@@ -262,9 +262,9 @@ static async postDotInUser(req, res, next) {
     const dot = await req.body.dot 
     const roomid=await req.body.roomid
     const userid=await req.body.userid
-
+    const attribute_id = await req.body.attribute_id
     res.json(req?.body)
-    ControllerDAO.injectDotInUser(userid,roomid,dot)
+    ControllerDAO.injectDotInUser(userid,roomid,dot,attribute_id)
   }
 
 

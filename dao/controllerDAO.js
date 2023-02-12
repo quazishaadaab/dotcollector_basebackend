@@ -42,20 +42,43 @@ export default class ControllerDAO {
     }
   }
 
-  static async injectDotInUser(userid, roomid, dot) {
+  static async injectDotInUser(userid, roomid, dot,attribute_id) {
+
+
     try {
       // javascript canot process back ticks in runtime, so we need to use brackets around it
 
-      dot.map(async (array) => {
-        await users.updateMany(
-          { userid: userid },
-          { $push: { [`dotCollection.${roomid}`]: array } }
-        );
-      });
+      const dotCollectionDoc = {"attribute_id":attribute_id,"room_id":roomid,"dot":dot}
+      await users.updateMany(
+        { userid: userid },
+        { $push: { [`dotCollection`]: dotCollectionDoc } }
+      );
+
+      // dot.map(async (array) => {
+      //   await users.updateMany(
+      //     { userid: userid },
+      //     { $push: { [`dotCollection.${roomid}`]: array } }
+      //   );
+      // });
     } catch (e) {
       console.error(`Unable to post review: ${e}`);
       return { error: e };
     }
+
+
+    // try {
+    //   // javascript canot process back ticks in runtime, so we need to use brackets around it
+
+    //   dot.map(async (array) => {
+    //     await users.updateMany(
+    //       { userid: userid },
+    //       { $push: { [`dotCollection.${roomid}`]: array } }
+    //     );
+    //   });
+    // } catch (e) {
+    //   console.error(`Unable to post review: ${e}`);
+    //   return { error: e };
+    // }
   }
 
   static async updateDotInUser(userid, roomid, dot) {
@@ -208,7 +231,7 @@ return await cursor[0];
             userid: userdoc.userid,
             username: userdoc.username,
             photoURL: userdoc.userPhoto,
-
+            email:userdoc.email
             // 'avgDot':userdoc.avgDot,
             // 'password':userdoc.password,
             // 'peers':userdoc.peers,
@@ -372,11 +395,11 @@ static async getAttribute(attributeid){
 
   try{
     let cursor = await attributes.find({attributeid:attributeid}).toArray();
-    return cursor
+    return cursor[0]
   }catch(e){console.log(e)}
 }
 
-static async getAttributeByUserId(userid){
+static async getAttributeByAuthorId(userid){
 
   try{
     let cursor = await attributes.find({authorid:userid}).toArray();

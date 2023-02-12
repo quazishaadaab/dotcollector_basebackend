@@ -99,7 +99,7 @@ router.route("/postAttribute").post(Controller.postAttribute)
 //by attributeid
 router.route("/getAttribute").post(Controller.getAttribute)
 
-router.route("/getAttributeByUserId").post(Controller.getAttributeByUserId)
+router.route("/getAttributeByAuthorId").post(Controller.getAttributeByAuthorId)
 
 //post attribute id in rooms
 router.route("/postAttributeIdInRoom").put(Controller.postAttributeIdInRoom)
