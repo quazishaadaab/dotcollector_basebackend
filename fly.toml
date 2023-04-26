@@ -1,4 +1,4 @@
-# fly.toml file generated for base-backend on 2022-08-31T08:50:30-04:00
+# fly.toml file generated for base-backend on 2023-02-23T18:55:39-05:00
 
 app = "base-backend"
 kill_signal = "SIGINT"
@@ -6,13 +6,11 @@ kill_timeout = 5
 processes = []
 
 [build]
-  builder = "heroku/buildpacks:20"
+  image = "flyio/hellofly:latest"
 
 [env]
-  PORT = "8080"
 
 [experimental]
-  allowed_public_ports = []
   auto_rollback = true
 
 [[services]]

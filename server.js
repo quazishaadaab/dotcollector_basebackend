@@ -107,7 +107,7 @@ let mailOptions={
 
     from:' DotCollector <shaadaabquazi@gmail.com>',
     to : email,
-    subject:'Join roomdd',
+    subject:'Join room',
     html: `<p>Click <a href=${roomlink}>here</a> to join a room</p>`
 }
 
