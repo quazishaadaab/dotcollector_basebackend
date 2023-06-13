@@ -15,13 +15,13 @@ class Controller {
     const roomid = await req.body.roomid;
     const roomname = await req.body.roomname;
     const room_type = await req.body.roomType
-    res.json(req?.body); //this is not mandatory. it just shows reqbin or postman the data. POST requests mainly
+    //res.json(req?.body); //this is not mandatory. it just shows reqbin or postman the data. POST requests mainly
     //just use req not res. res is more for GET
 
     console.log(req.body.roomid, req.body.roomname,req.body.room_type);
-
+    const resMessage = await EXECUTE_postRooms(roomid,roomname,room_type)
     //create the room in new row
-    EXECUTE_postRooms(roomid,roomname,room_type)
+    res.json({body:req?.body, resMessage: resMessage})
 
     //add the person who created the room to the user list 
     ControllerDAO.inject(roomid, roomname,room_type);
@@ -137,9 +137,10 @@ res.json(userinfo)
     }
 
   
-    EXECUTE_postUserInRooms(userDoc,roomid)
+    const resMessage= await EXECUTE_postUserInRooms(userDoc,roomid)
 
-    res.json(req?.body)
+    res.json({body:req?.body, resMessage: resMessage})
+
     ControllerDAO.injectUsersInRoom(roomid,userDoc)
   }
 
@@ -218,9 +219,10 @@ static async postSpeakerInRoom(req,res,next){
     const speaker= await req.body.speakerid
     const roomid=await req.body.roomid
 
-    res.json(req?.body)
 
-    EXECUTE_setSpeaker(speaker,roomid)
+    const resMessage = await EXECUTE_setSpeaker(speaker,roomid)
+    res.json({body:req?.body, resMessage: resMessage})
+
     ControllerDAO.injectSpeakerInRoom(roomid,speaker)
 
 
@@ -230,8 +232,9 @@ static async postCreatorInRoom(req,res,next){
     const creator = await req.body.creator 
     const roomid=await req.body.roomid
 
-    res.json(req?.body)
-    EXECUTE_setCreator(creator,roomid)
+    const resMessage = await EXECUTE_setCreator(creator,roomid)
+    res.json({body:req?.body, resMessage: resMessage})
+
     ControllerDAO.injectCreatorInRoom(roomid,creator)
 
 }
@@ -246,11 +249,12 @@ static async updateDotInRoom(req,res,next){
 
 
 static async updateDotRowandCol(req,res,next){
-const roomid =await req?.body?.roomid
+const userid =await req?.body?.userid
 const dot = await req?.body?.dot
-res.json({roomid:roomid, dot:dot})
+const roomid = await req?.body?.roomid
+res.json({userid:userid, roomid:roomid,dot:dot})
 console.log('dot update')
-ControllerDAO.updateDotRowAndColumns(roomid,dot)
+ControllerDAO.updateDotRowAndColumns(userid,roomid,dot)
 
 }
 

@@ -303,24 +303,19 @@ return await cursor[0];
   }
 
 
-static async updateDotRowAndColumns(roomid,dot){
-
+static async updateDotRowAndColumns(userid,roomid,dot){
 
 const row = dot?.row
 const column = dot?.column
 
 // we cannot use backticks when defining a mongodb query
 let query = {}
-var value = `dot.${row-1}.${column-1}`
+const value = `dotCollection.${roomid}.dot.${row-1}.${column-1}`
 query[value] = dot
-console.log('cols',dot?.column)
-console.log('rows',dot?.row)
-
-  try{
-await rooms.updateMany({roomid:roomid},{$set:query})
-
+  try{   
+await users.updateMany({userid:userid},{$set:query})
   }catch(e){
-
+console.log(e)
   }
 }
 

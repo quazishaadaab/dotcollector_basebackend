@@ -13,7 +13,7 @@ dotenv.config()
 //initialize mongodb
 const MongoClient = mongodb.MongoClient
 //initialize port specefied in .env file. server port is 8000
-
+console.log(process.env.SUPABASE_DB_URL)
 //set custmized properties for database
 MongoClient.connect(//connects to database
   process.env.RESTREVIEWS_DB_URI,//links to the URI database link in mongodb

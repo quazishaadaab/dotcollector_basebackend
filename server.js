@@ -18,11 +18,10 @@ import {google} from 'googleapis'
 
 import email from './api/controller.js'
 
- const app = express()
+const app = express()
 app.use(cors())
 
 app.use(express.json())
-
 
 
 //get room id
@@ -62,13 +61,14 @@ console.log(`server listening`   )
 
 
 
-const CLIENT_ID = '176309719056-rr2qb5ifakhgcs8eqbtc11fiqph82mn9.apps.googleusercontent.com'
-const CLIENT_SECRET = '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'
+const CLIENT_ID = '345433280881-t1blvfjsg7rjsq7corcbevgu0eplbg5r.apps.googleusercontent.com'
+const CLIENT_SECRET = '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'
 
 const REDIRECT_URI = 'https://developers.google.com/oauthplayground'
 // const REFRESH_TOKEN='1//048z2BxrrvmmcCgYIARAAGAQSNwF-L9IrUmIXC6EYQtWuhl90S2wjrz7HvEqfGDBI6BTl_Vpe-FX7HzfmLQqgFgu6MbYd8NNxkqc'
 
-const REFRESH_TOKEN='1//04xLZfNSLEZSRCgYIARAAGAQSNwF-L9Ir8WndohaPIgRtqwoiAv7Sr9OyWZHmOI8LDRwfA4EMpwxli4wNKlxLS4AZT4vMpOtwVhA'
+//EXPIRES AFTER 7 DAYS, WILL NEED TO CREATE A NEW ONE
+const REFRESH_TOKEN='1//04yDqjdbiikQ2CgYIARAAGAQSNwF-L9Ir1aBMGKOgD6wb-ICwDEhrj7UeTgeznSUWZIufzMrZw7JCyoY3dfO1lIPAfmW-EoxiNco'
 
 
 
@@ -114,9 +114,11 @@ let mailOptions={
 
 
 const result = await transport.sendMail(mailOptions)
+console.log('res',result)
 return result;
+
     }
-    catch(e){return e}
+    catch(e){console.log(e)}
 
 }
 
