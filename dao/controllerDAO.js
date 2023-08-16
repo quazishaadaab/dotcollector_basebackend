@@ -81,11 +81,14 @@ export default class ControllerDAO {
     // }
   }
 
-  static async updateDotInUser(userid, roomid, dot) {
+  static async updateDotInUser(userid, roomid, dot,attribute_id) {
     try {
+      console.log("updateDotInUser")
+      const dotCollectionDoc = {"attribute_id":attribute_id,"room_id":roomid,"dot":dot}
+
       await users.updateMany(
         { userid: userid },
-        { $set: { [`dotCollection.${roomid}`]: dot } }
+        { $set: { [`dotCollection.${roomid}`]: dotCollectionDoc } }
       );
     } catch (e) {
       console.error(`Unable to post review: ${e}`);
@@ -142,23 +145,24 @@ await users.updateMany(
 
 
   //we are not using this anymore
-  static async getAllRoomsByUserId(userid){
+  // static async getAllRoomsByUserId(userid){
 
-    try{
-      let cursor = await users.find({userid:userid}).toArray();
-      const dotCollection_arr = cursor[0].dotCollection;
-      const keys =  Object.keys(dotCollection_arr)
-    console.log('dotCollection',dotCollection_arr)
-    console.log('keys',keys)
+  //   try{
+  //     let cursor = await users.find({userid:userid}).toArray();
+  //     const dotCollection_arr = cursor[0].dotCollection;
+  //     const keys =  Object.keys(dotCollection_arr)
+  //   console.log('dotCollection',dotCollection_arr)
+  //   console.log('keys',keys)
 
-    return await keys
-    }catch(e){
-      console.log(e)
-    }
+  //   return await keys
+  //   }catch(e){
+  //     console.log(e)
+  //   }
 
 
-  }
+  // }
 
+  //high volume api
   static async getUsersInRoom(roomid) {
     try {
       const cursor = await rooms

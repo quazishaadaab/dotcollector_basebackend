@@ -69,6 +69,7 @@ router.route("/getUsersInRoom").post(Controller.getUsersInRoom)
 // ----------port 5000/6000-----------
 // get avgDot 
 
+//dont use this anymore delte.
 router.route("/postDotInUser").put(Controller.postDotInUser)
 
 

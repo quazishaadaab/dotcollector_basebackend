@@ -41,7 +41,6 @@ class Controller {
 
   static async getAllRoomsByUserId(req,res,next){
     const userid=await req.body.userid
-    const rooms = await ControllerDAO.getAllRoomsByUserId(userid)
     // res.json(rooms)
 
 
@@ -262,6 +261,7 @@ ControllerDAO.updateDotRowAndColumns(userid,roomid,dot)
 
 // users
 
+//dont use this anymore, delete
 static async postDotInUser(req, res, next) {
     const dot = await req.body.dot 
     const roomid=await req.body.roomid
@@ -276,9 +276,9 @@ static async postDotInUser(req, res, next) {
     const dot = await req.body.dot 
     const roomid=await req.body.roomid
     const userid=await req.body.userid
-
+    const attribute_id = await req.body.attribute_id
     res.json(req?.body)
-    ControllerDAO.updateDotInUser(userid,roomid,dot)
+    ControllerDAO.updateDotInUser(userid,roomid,dot,attribute_id)
   }
 
 static async addPeers(req,res,next){

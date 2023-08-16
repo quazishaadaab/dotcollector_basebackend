@@ -147,6 +147,7 @@ const EXECUTE_postUserInRooms=async(postgres_userdoc,roomid)=>{
     
     try{
     const {data,error} = await supabase.rpc('execute_postuserinrooms',{ userdoc:userDoc , roomid:roomid ,userdocnoquotes:userDocNoQuotes})
+
     if(!error){return "Success your user has been posted/updated in room"}else{return `Failure, something went wrong ${error}`}
     //console.log(data,error)
 
